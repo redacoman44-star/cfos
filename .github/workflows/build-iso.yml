@@ -1,0 +1,48 @@
+name: Build CFOS ISO
+on:
+  workflow_dispatch:
+  push:
+    tags: ['v*']
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    container:
+      image: debian:trixie
+      options: --privileged
+    steps:
+      - name: Install build tools
+        run: |
+          apt-get update
+          DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+            git ca-certificates python3 live-build debootstrap squashfs-tools xorriso isolinux syslinux syslinux-common \
+            grub-pc-bin grub-efi-amd64-bin mtools dosfstools
+      - uses: actions/checkout@v4
+      - name: Check package names exist in Debian 13
+        run: bash scripts/check-packages.sh
+      - name: Static checks and unit tests
+        run: |
+          bash scripts/check-config.sh
+          PYTHONPATH=core python3 -m unittest discover -s core/tests
+      - name: Build ISO
+        run: bash scripts/build-iso.sh
+      - name: Checksums
+        run: sha256sum *.iso | tee SHA256SUMS
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cfos-iso
+          path: |
+            *.iso
+            SHA256SUMS
+            live-image-*.contents
+            live-image-*.packages
+          if-no-files-found: error
+      - name: Upload build log on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-log
+          path: |
+            chroot/var/log
+            build.log
+          if-no-files-found: ignore

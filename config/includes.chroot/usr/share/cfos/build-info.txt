@@ -1,0 +1,6 @@
+CFOS Base v0.9.1 (boot-fix candidate)
+Debian 13 (Trixie) amd64
+CFOS Core 0.8.0
+Driver Intelligence: read-only; driver install: plan/approve/rollback
+Boot report: /var/log/cfos/boot-report-latest.txt
+Hardware validation: pending

@@ -1,0 +1,25 @@
+#!/bin/bash
+# Collect a diagnostic report from a booted CFOS live session. Run: sudo cfos-boot-report
+OUT="${1:-/tmp/cfos-boot-report-$(date +%Y%m%d-%H%M%S).txt}"
+sec() { printf '\n===== %s =====\n' "$1"; }
+{
+  sec "Firmware mode";   [ -d /sys/firmware/efi ] && echo UEFI || echo "Legacy BIOS"
+  sec "Kernel / CPU";    uname -a; grep -m1 'model name' /proc/cpuinfo; grep -m1 -o -w -E 'vmx|svm' /proc/cpuinfo || echo "no hardware virtualization flag"
+  sec "Memory";          free -m
+  sec "Boot cmdline";    cat /proc/cmdline
+  sec "Failed units";    systemctl --failed --no-pager
+  sec "cfos-core";       systemctl status cfos-core --no-pager -l 2>&1 | head -30
+  sec "Journal errors";  journalctl -b -p 3 --no-pager 2>&1 | tail -60
+  sec "dmesg warn+";     dmesg --level=err,warn 2>&1 | tail -60
+  sec "Graphics";        ls -l /dev/dri 2>&1; lspci -nnk 2>/dev/null | grep -A3 -Ei 'vga|display'
+  sec "Session";         pgrep -a 'greetd|labwc|waybar' || echo "no greetd/labwc/waybar process"
+  sec "PCI";             lspci -nnk 2>&1 | head -80
+  sec "USB";             lsusb 2>&1
+  sec "cfos status";     cfos status 2>&1
+  sec "cfos hardware";   cfos hardware --local 2>&1
+  sec "cfos drivers";    cfos drivers --local 2>&1
+  sec "cfos devices";    cfos devices --local 2>&1
+  sec "cfos usb-reconcile"; cfos usb-reconcile --local 2>&1
+  sec "CUPS / SANE";     systemctl is-active cups; lpstat -p 2>&1 | head; scanimage -L 2>&1 | head
+} > "$OUT" 2>&1
+echo "Report saved: $OUT"

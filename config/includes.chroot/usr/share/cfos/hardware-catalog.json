@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "usb_vendors": {
+    "03f0": {
+      "name": "HP",
+      "category": "printing",
+      "note": "Vendor-level match only; exact model requires a product ID entry."
+    },
+    "04b8": {
+      "name": "Epson",
+      "category": "printing",
+      "note": "Vendor-level match only; exact model requires a product ID entry."
+    },
+    "04a9": {
+      "name": "Canon",
+      "category": "printing",
+      "note": "Vendor-level match only; exact model requires a product ID entry."
+    },
+    "04f9": {
+      "name": "Brother",
+      "category": "printing",
+      "note": "Vendor-level match only; exact model requires a product ID entry."
+    },
+    "0bda": {
+      "name": "Realtek",
+      "category": "networking",
+      "note": "Common USB networking chipset vendor; confirm product ID and driver."
+    },
+    "0b95": {
+      "name": "ASIX",
+      "category": "networking",
+      "note": "Common USB Ethernet chipset vendor; confirm product ID and driver."
+    },
+    "0cf3": {
+      "name": "Qualcomm Atheros",
+      "category": "networking",
+      "note": "Network hardware vendor; confirm exact model and driver."
+    },
+    "046d": {
+      "name": "Logitech",
+      "category": "peripherals",
+      "note": "Peripheral vendor; function is determined from USB interfaces."
+    }
+  },
+  "usb_products": {},
+  "pci_vendors": {
+    "10ec": {
+      "name": "Realtek",
+      "category": "networking"
+    },
+    "8086": {
+      "name": "Intel",
+      "category": "computing"
+    },
+    "14e4": {
+      "name": "Broadcom",
+      "category": "networking"
+    },
+    "168c": {
+      "name": "Qualcomm Atheros",
+      "category": "networking"
+    },
+    "1969": {
+      "name": "Qualcomm Atheros",
+      "category": "networking"
+    },
+    "10de": {
+      "name": "NVIDIA",
+      "category": "graphics"
+    },
+    "1002": {
+      "name": "AMD",
+      "category": "graphics"
+    }
+  }
+}

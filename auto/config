@@ -1,0 +1,20 @@
+#!/bin/sh
+set -eu
+
+lb config noauto \
+  --mode debian \
+  --distribution trixie \
+  --architectures amd64 \
+  --binary-images iso-hybrid \
+  --archive-areas "main contrib non-free non-free-firmware" \
+  --debian-installer none \
+  --bootappend-live "boot=live components live-config.debug live-config.username=cfos live-config.hostname=cfos live-config.locales=en_US.UTF-8 live-config.keyboard-layouts=us live-config.user-default-groups=audio,cdrom,dip,floppy,video,plugdev,netdev,powerdev,scanner,bluetooth,cfos live-config.noautologin" \
+  --iso-application "CFOS Base" \
+  --iso-publisher "CFOS Project" \
+  --iso-volume "CFOS_BASE_01" \
+  --memtest none \
+  --apt-recommends false \
+  --apt-options "--yes -oAcquire::Retries=3" \
+  --firmware-chroot true \
+  --firmware-binary true \
+  --linux-flavours amd64

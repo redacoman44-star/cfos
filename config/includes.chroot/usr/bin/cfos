@@ -1,0 +1,2 @@
+#!/bin/sh
+PYTHONPATH=/usr/lib/cfos exec /usr/bin/python3 -m cfos_core.cli "$@"

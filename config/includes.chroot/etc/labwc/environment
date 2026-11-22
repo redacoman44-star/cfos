@@ -1,0 +1,2 @@
+# Allow the pixman software renderer when no supported GPU/GLES2 driver is available (old hardware).
+WLR_RENDERER_ALLOW_SOFTWARE=1

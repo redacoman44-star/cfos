@@ -1,0 +1,12 @@
+[Unit]
+Description=Collect CFOS boot diagnostics
+After=cfos-core.service greetd.service
+Wants=cfos-core.service greetd.service
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/cfos-boot-report /var/log/cfos/boot-report-latest.txt
+TimeoutStartSec=60s
+
+[Install]
+WantedBy=multi-user.target

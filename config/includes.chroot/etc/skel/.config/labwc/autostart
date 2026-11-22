@@ -1,0 +1,3 @@
+#!/bin/sh
+# Temporary development session. CFOS Shell will replace this in a later milestone.
+waybar &

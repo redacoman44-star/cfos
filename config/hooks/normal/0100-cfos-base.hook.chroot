@@ -1,0 +1,24 @@
+#!/bin/sh
+set -e
+
+# Enable baseline services in the installed/live system.
+systemctl enable NetworkManager.service
+systemctl enable cups.service
+systemctl enable avahi-daemon.service
+systemctl enable greetd.service
+
+# Avoid enabling Bluetooth automatically on every machine; it can be enabled by the user.
+# Keep services minimal until hardware is detected and the CFOS Service Manager exists.
+
+# Git/web uploads from Windows drop the executable bit; restore it.
+chmod 0755 /usr/bin/cfos /usr/bin/cfos-boot-report
+
+install -d -m 0755 /var/log/cfos
+install -d -m 0755 /var/lib/cfos
+install -d -m 0755 /etc/cfos
+
+# v0.9 image validation: CFOS Core is enabled so `cfos status` can be tested through the daemon socket.
+systemctl daemon-reload
+systemctl enable cfos-core.service
+systemctl enable cfos-boot-report.service
+
